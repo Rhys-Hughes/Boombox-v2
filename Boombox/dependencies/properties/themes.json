@@ -6,9 +6,10 @@
         "highlight_colour" : "#e0194e",
         "neutral_colour" : "#858585",
         "general_font" : "Microsoft YaHei",
-        "standard_font" : "(general_font, 12)",
-        "title_font" : "(general_font, 24)",
-        "version_font" : "(general_font, 8)",
-        "logo" : "Boombox\\dependencies\\images\\logo_standard.ico"
+        "standard_font" : "('Microsoft YaHei', 12)",
+        "title_font" : "('Microsoft YaHei', 24)",
+        "version_font" : "('Microsoft YaHei', 8)",
+        "logo" : "logo_standard.ico",
+        "border_width" : 0
     }
 ]
