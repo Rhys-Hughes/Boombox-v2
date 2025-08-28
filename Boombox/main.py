@@ -2,8 +2,8 @@ import tkinter as tk, helper
 
 import UIManager as UIM
 
-def debug():
-    print("debug")
+def debug(val):
+    print(val)
 
 if __name__ == "__main__":
 
@@ -35,12 +35,17 @@ if __name__ == "__main__":
     editing_frame.format_rows_columns(columns = [50, 50])
 
 
+
     #----------------------------------------------------------------------------------populating the sound frame
+    def settings_popout():
+        pass
+
     sound_frame.new_label(content = "sounds", grid = (0, 0))
 
-    content_frame =UIM.Window()
+    content_frame = UIM.Window()
     content_frame.initiate_scrollable_frame(parent = sound_frame.window, grid = (0, 1))
     content_frame.format_rows_columns(columns = [60, 20, 10, 10], only = True)
+    content_frame.format_frame_border(scrollable = True)
 
     #filling th econtent frame
     sound_list = helper.get_sound_list()
@@ -49,17 +54,24 @@ if __name__ == "__main__":
     for i, sound in enumerate(sound_list):
 
         #name of the sound
-        content_frame.new_neutral_label(content = sound.name, grid = (0, i), sticky = "sticky")
+        content_frame.new_neutral_label(content = sound.name, grid = (0, i), sticky = "sticky", xyBuffer = (2, 2))
 
         #keybind of the sound
-        content_frame.new_neutral_label(content = helper.get_keybind_string(sound.keybind), grid = (1, i), sticky = "sticky")
+        content_frame.new_neutral_label(content = helper.get_keybind_string(sound.keybind), grid = (1, i), sticky = "sticky", xyBuffer = (2, 2))
 
         #settings to edit the sound
-        content_frame.new_button(content = "⚙", grid = (2, i), sticky = "sticky")
+        content_frame.new_button(content = "⚙", grid = (2, i), sticky = "sticky", xyBuffer = (2, 2), command = settings_popout)
 
         #play button to manually play the sound
-        content_frame.new_button(content = "▶", grid = (3, i), sticky = "sticky")
+        content_frame.new_button(content = "▶", grid = (3, i), sticky = "sticky", xyBuffer = (2, 2), command = sound.play)
 
 
+
+    #----------------------------------------------------------------------------------creating the mic controls
+    mic_frame.new_label(content = "Mic Vol", grid = (0, 0))
+    mic_frame.new_slider(100, grid = (1, 0))
+
+    mic_frame.new_label(content = "level", grid = (0, 1))
+    mic_frame.new_volume_bar(grid = (1,1))
 
     main_window.close_loop()

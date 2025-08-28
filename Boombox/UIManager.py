@@ -2,7 +2,7 @@ import tkinter as tk
 import ctypes
 import customtkinter as ctk
 
-import helper
+import helper, audioManager
 
 class Window:
     def __init__(self):
@@ -61,12 +61,14 @@ class Window:
                               scrollbar_button_color = theme["highlight_colour"], 
                               scrollbar_button_hover_color = theme["highlight_colour"])
 
-
     #close the window instance to make things apply
     def close_loop(self):
         self.window.mainloop()    
 
-        #creates the basic window
+
+
+
+    #formats the page
     def format_page(self):
         #sets up the main window
         theme = helper.get_theme()
@@ -80,9 +82,6 @@ class Window:
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(theme["logo"])
 
         self.window.resizable(False, False)
-
-
-
 
     #creates a frame within whatever window/frame is needed
     #
@@ -104,13 +103,24 @@ class Window:
         else:
             for i, column_weight in enumerate(columns):
                 self.window.columnconfigure(i, weight = column_weight)
-        
+    
+    def format_frame_border(self, scrollable = None):
+        theme = helper.get_theme()
+
+        if scrollable == True:
+            self.window.configure(border_color = theme["highlight_colour"], border_width = theme["frame_border_width"])
+        else:
+            self.window.configure(highlightcolor = theme["highlight_colour"], highlightthickness= theme["frame_border_width"])
+
+
 
     #adds a title to the page
     #
     # content -> string of Content
     # grid -> tuple coordinades as (column, row)  {if left blank, will pack the label}
-    def new_title_label(self, content, grid = None, sticky = None):
+    # sticky -> if "not sticky" the widget will not be sticky
+    # xyBuffer -> touple which creates a buffer as (x, y)
+    def new_title_label(self, content, grid = None, sticky = None, xyBuffer = None):
         theme = helper.get_theme()
 
         label = tk.Label(self.window, text = content)
@@ -119,6 +129,9 @@ class Window:
                         bd = theme["border_width"], 
                         fg = theme["highlight_colour"], 
                         font=theme["title_font"])
+
+        if xyBuffer is not None:
+            label.configure(padx = xyBuffer[0], pady = xyBuffer[1])
         
         if grid is not None:
             if sticky == "sticky":
@@ -130,10 +143,7 @@ class Window:
 
         return label
     
-    #displays the version of the software
-    #
-    # grid -> tuple coordinades as (column, row)  {if left blank, will pack the label}
-    def new_version_label(self, grid = None, sticky = None):
+    def new_version_label(self, grid = None, sticky = None, xyBuffer = None):
         theme = helper.get_theme()
         version = helper.get_version()
 
@@ -144,6 +154,9 @@ class Window:
                         fg = theme["text_colour"], 
                         font=theme["version_font"])
         
+        if xyBuffer is not None:
+            label.configure(padx = xyBuffer[0], pady = xyBuffer[1])
+
         if grid is not None:
             if sticky == "sticky":
                 label.grid(row = grid[1], column = grid[0], sticky = "nsew")
@@ -154,11 +167,7 @@ class Window:
 
         return label
 
-    #adds a title to the page
-    #
-    # content -> string of Content
-    # grid -> tuple coordinades as (column, row)  {if left blank, will pack the label}
-    def new_label(self, content, grid = None, sticky = None):
+    def new_label(self, content, grid = None, sticky = None, xyBuffer = None):
         theme = helper.get_theme()
 
         label = tk.Label(self.window, text = content)
@@ -168,6 +177,9 @@ class Window:
                         fg = theme["text_colour"], 
                         font=theme["standard_font"])
         
+        if xyBuffer is not None:
+            label.configure(padx = xyBuffer[0], pady = xyBuffer[1])
+
         if grid is not None:
             if sticky == "sticky":
                 label.grid(row = grid[1], column = grid[0], sticky = "nsew")
@@ -178,11 +190,7 @@ class Window:
 
         return label
 
-    #adds a title to the page
-    #
-    # content -> string of Content
-    # grid -> tuple coordinades as (column, row)  {if left blank, will pack the label}
-    def new_neutral_label(self, content, grid = None, sticky = None):
+    def new_neutral_label(self, content, grid = None, sticky = None, xyBuffer = None):
         theme = helper.get_theme()
 
         label = tk.Label(self.window, text = content)
@@ -192,6 +200,9 @@ class Window:
                         fg = theme["background_colour"], 
                         font=theme["standard_font"])
         
+        if xyBuffer is not None:
+            label.configure(padx = xyBuffer[0], pady = xyBuffer[1])
+
         if grid is not None:
             if sticky == "sticky":
                 label.grid(row = grid[1], column = grid[0], sticky = "nsew")
@@ -202,7 +213,7 @@ class Window:
 
         return label
 
-    def new_button(self, content, grid = None, command = None, sticky = None):
+    def new_button(self, content, grid = None, command = None, sticky = None, xyBuffer = None):
         theme = helper.get_theme()
 
         if command is None:
@@ -216,6 +227,9 @@ class Window:
                          fg = theme["text_colour"], 
                          font=theme["standard_font"])
 
+        if xyBuffer is not None:
+            button.configure(padx = xyBuffer[0], pady = xyBuffer[1])
+
         if grid is not None:
             if sticky == "sticky":
                 button.grid(row = grid[1], column = grid[0], sticky = "nsew")
@@ -224,10 +238,63 @@ class Window:
         elif grid is None:
             button.pack()
 
+    def new_slider(self, scale, grid = None, sticky = None, xyBuffer = None):
+        theme = helper.get_theme()
 
+        slider = ctk.CTkSlider(self.window)
 
+        slider.configure(from_ = 0, 
+                         to = scale, 
+                         orientation= "horizontal", 
+                         corner_radius = 5, 
+                         fg_color = theme["text_colour"], 
+                         width = helper.get_volume_slider_length(), 
+                         button_hover_color = theme["highlight_colour"], 
+                         button_color = theme["neutral_colour"], 
+                         progress_color = theme["highlight_colour"],
+                         command = lambda x: audioManager.set_mic_volume(slider.get()))
 
-    
+        if xyBuffer is not None:
+            slider.configure(padx = xyBuffer[0], pady = xyBuffer[1])
+
+        if grid is not None:
+            if sticky == "sticky":
+                slider.grid(row = grid[1], column = grid[0], sticky = "nsew")
+            else:
+                slider.grid(row = grid[1], column = grid[0])
+        elif grid is None:
+            slider.pack()
+
+    def new_volume_bar(self, grid = None, sticky = None, xyBuffer = None):
+        theme = helper.get_theme()
+
+        progress = ctk.CTkProgressBar(self.window, orientation= "horizontal")
+
+        progress.configure(
+                         corner_radius = 5, 
+                         fg_color = theme["neutral_colour"], 
+                         width = helper.get_volume_slider_length(), 
+                         progress_color = theme["highlight_colour"])
+
+        if xyBuffer is not None:
+            progress.configure(padx = xyBuffer[0], pady = xyBuffer[1])
+
+        if grid is not None:
+            if sticky == "sticky":
+                progress.grid(row = grid[1], column = grid[0], sticky = "nsew")
+            else:
+                progress.grid(row = grid[1], column = grid[0])
+        elif grid is None:
+            progress.pack()
+
+        #sets the volume check which will display the volume of the user live
+        def __user_volume_check__():
+            level = audioManager.get_mic_volume()
+            progress.set(level)
+            self.window.after(20, __user_volume_check__)    
+            print(level)
+
+        __user_volume_check__()
 
     # ### debug ### #
     def frame_debug_colour(self):

@@ -14,7 +14,6 @@ def get_settings():
 
     return settings
 
-
 #parses the theme json
 def get_theme():
     settings = get_settings()
@@ -44,16 +43,18 @@ def get_theme():
 
             return themes[i]
 
-
+#retrieves the dimensions of the main screen
 def get_dimensions():
     settings = get_settings()
 
     return settings["dimensions"]
 
+#gets the version of boombox
 def get_version():
     with open(properties_path + "version.txt", "r") as version_file:
         return version_file.read()
 
+#generates a soundlist
 def get_sound_list():
     with open(data_path + "sounds.json", "r") as sounds_file:
         sounds = json.load(sounds_file)
@@ -71,6 +72,7 @@ def get_sound_list():
     
     return sound_list
 
+#turns the keybind code into a human-readable format
 def get_keybind_string(keybind):
     #creating keybind string
     keybind_string =""
@@ -82,3 +84,36 @@ def get_keybind_string(keybind):
             keybind_string = keybind_string +  key + " + "
     
     return keybind_string
+
+#used to format the volume sliders
+def get_volume_slider_length():
+    dimensions = get_dimensions()
+
+    dimensions_array = dimensions.split("x")
+
+    x = dimensions_array[0]
+
+    #sets to 80% width
+    return int(x) * 0.8
+
+#returns y widths
+def get_y_height():
+    dimensions = get_dimensions()
+
+    dimensions_array = dimensions.split("x")
+
+    y = dimensions_array[1]
+
+    #sets to 80% width
+    return int(y)
+
+#returns x widths
+def get_x_width():
+    dimensions = get_dimensions()
+
+    dimensions_array = dimensions.split("x")
+
+    x = dimensions_array[0]
+
+    #sets to 80% width
+    return int(x)

@@ -1,7 +1,12 @@
 [
     {
-        "name" : "behind you",
+        "name" : "Behind You",
         "location" : "Boombox\\dependencies\\default_sounds\\Behind you.mp3",
         "keybind" : ["cntrl", "i"] 
+    },
+    {
+        "name" : "Good Job",
+        "location" : "Boombox\\dependencies\\sounds\\Good Job.mp3",
+        "keybind" : ["cntrl", "o"] 
     }
 ]

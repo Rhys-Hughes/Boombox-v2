@@ -1,3 +1,5 @@
+import audioManager
+
 class Sound:
     def __init__(self, name, location, keybind):
         self.name = name
@@ -15,7 +17,8 @@ class Sound:
 
     #calls to the audio manager to play the desired sound
     def play(self):
-        pass
+        
+        audioManager.play(self.location)
     
     #adds the sound to the sounds file
     def add(self):
