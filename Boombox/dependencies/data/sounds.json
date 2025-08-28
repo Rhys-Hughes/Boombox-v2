@@ -1,0 +1,7 @@
+[
+    {
+        "name" : "behind you",
+        "location" : "Boombox\\dependencies\\default_sounds\\Behind you.mp3",
+        "keybind" : ["cntrl", "i"] 
+    }
+]

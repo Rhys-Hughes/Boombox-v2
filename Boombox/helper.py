@@ -1,4 +1,4 @@
-import json, ast
+import json, ast, sounds as SD
 
 whole_path = "Boombox\\"
 dependencies_path = whole_path + "dependencies\\"
@@ -42,10 +42,7 @@ def get_theme():
             title_font = theme["title_font"]
             theme["title_font"] = ast.literal_eval(title_font)
 
-            print(theme["title_font"])
-
             return themes[i]
-        
 
 
 def get_dimensions():
@@ -54,5 +51,34 @@ def get_dimensions():
     return settings["dimensions"]
 
 def get_version():
-    with open(properties_path+"version.txt", "r") as version_file:
+    with open(properties_path + "version.txt", "r") as version_file:
         return version_file.read()
+
+def get_sound_list():
+    with open(data_path + "sounds.json", "r") as sounds_file:
+        sounds = json.load(sounds_file)
+    
+    sound_list = []
+
+    for i, sound in enumerate(sounds):
+        name = sounds[i]["name"]
+        location = sounds[i]["location"]
+        keybind = sounds[i]["keybind"]
+
+        new_sound = SD.Sound(name, location, keybind)
+
+        sound_list.append(new_sound)
+    
+    return sound_list
+
+def get_keybind_string(keybind):
+    #creating keybind string
+    keybind_string =""
+    for i, key in enumerate(keybind):
+
+        if i == len(keybind) - 1:
+            keybind_string = keybind_string + key
+        else:
+            keybind_string = keybind_string +  key + " + "
+    
+    return keybind_string
