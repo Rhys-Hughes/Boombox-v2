@@ -8,8 +8,6 @@ def debug(val):
 
 if __name__ == "__main__":
 
-    AM.initialise_audio()
-
     #the main page everything happens on
     main_window = UIM.Window()
     main_window.initiate_page()
@@ -97,5 +95,7 @@ if __name__ == "__main__":
     editing_frame.new_button(style = "highlight", content = "settings", grid = (0, 0), command = settings_popout)
     editing_frame.new_button(style = "highlight", content = "add sound", grid = (1, 0), command = add_sound_popout)
 
+
+    AM.initialise_audio()
 
     main_window.close_loop()

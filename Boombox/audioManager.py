@@ -32,7 +32,6 @@ def callback(indata, outdata, frames, time, status):
     outdata[:] = indata * volume
     micLevel = np.mean(indata)
 
-
 #establishes the minimum devices and stream
 def initialise_audio():
 
@@ -51,6 +50,8 @@ def initialise_audio():
                 input_index = index
             if device["name"] == output_device:
                 output_index = index
+            
+            print(input_device + " " + output_device)
                 
     else:
         print(sd.query_devices())
@@ -69,6 +70,8 @@ def initialise_audio():
         #file re-written
         helper.write_IO_defaults(devices_dictionary)
 
+
+
     try:
         #defualt devices set
         sd.default.device = (input_index, output_index)
@@ -78,7 +81,7 @@ def initialise_audio():
         return True
     
     except Exception as e:
-        return False
+        print(e)
 
 
 
@@ -91,8 +94,8 @@ def initialise_audio():
 
 
 #sets the microphone volume at a certain level
-def set_mic_volume(volume):
-    return volume
+def set_mic_volume(volume_new):
+    volume = volume_new
 
 #returns the current mic volume
 def get_mic_volume():
