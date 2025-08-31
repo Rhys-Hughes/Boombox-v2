@@ -1,17 +1,24 @@
 import tkinter as tk
 import ctypes
 import customtkinter as ctk
+import tkinter.font as tkFont
 
 import helper, audioManager
+
+
+title_font = ""
+standard_font = ""
+version_font = ""
 
 class Window:
     def __init__(self):
         self.self = self
         self.window = None
-    
+
+    #---------------------------------------------------------------------------------- Frames / pages
     #create the window instance
     def initiate_page(self):
-        self.window = tk.Tk()
+        self.window = ctk.CTk()
     
     #creates a new frame within the UI
     #
@@ -20,7 +27,7 @@ class Window:
     # sticky -> makes the frame fill the grid area it is in
     def initiate_frame(self, parent, grid = None, sticky = None):
         theme = helper.get_theme()
-        self.window = tk.Frame(parent)
+        self.window = ctk.CTkFrame(parent)
 
         if sticky == "not sticky":
             if grid is None:
@@ -33,7 +40,7 @@ class Window:
             else:
                 self.window.grid(row = grid[1], column = grid[0], sticky = "nsew")
         
-        self.window.configure(bg = theme["background_colour"])
+        self.window.configure(fg_color = theme["background_colour"])
     
     #creates a new frame within the UI
     #
@@ -68,18 +75,21 @@ class Window:
 
 
 
+    #---------------------------------------------------------------------------------- formatting
     #formats the page
     def format_page(self):
         #sets up the main window
         theme = helper.get_theme()
         dimensions = helper.get_dimensions()
     
-        self.window.title("Boombox V1.0")
+        self.window.title("Boombox")
         self.window.geometry(dimensions)
-        self.window.configure(background = theme["background_colour"])
+        self.window.configure(fg_color = theme["background_colour"])
         self.window.iconbitmap(default=theme["logo"])
 
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(theme["logo"])
+
+        ctk.set_appearance_mode("dark")
 
         self.window.resizable(False, False)
 
@@ -112,131 +122,141 @@ class Window:
         else:
             self.window.configure(highlightcolor = theme["highlight_colour"], highlightthickness= theme["frame_border_width"])
 
-
-
-    #adds a title to the page
+    #---------------------------------------------------------------------------------- widgets
+    #adds a label to the page
     #
     # content -> string of Content
     # grid -> tuple coordinades as (column, row)  {if left blank, will pack the label}
     # sticky -> if "not sticky" the widget will not be sticky
     # xyBuffer -> touple which creates a buffer as (x, y)
-    def new_title_label(self, content, grid = None, sticky = None, xyBuffer = None):
+    # style -> decides how the label will look
+    def new_label(self, style, content = None, grid = None, sticky = None, xyBuffer = None):
         theme = helper.get_theme()
 
-        label = tk.Label(self.window, text = content)
-        label.configure(activebackground = theme["highlight_colour"], 
-                        bg= theme["background_colour"], 
-                        bd = theme["border_width"], 
-                        fg = theme["highlight_colour"], 
-                        font=theme["title_font"])
+        title_font = ctk.CTkFont(family = theme["title_font"][0], size = theme["title_font"][1])
+        standard_font = ctk.CTkFont(family = theme["standard_font"][0], size = theme["standard_font"][1])
+        version_font = ctk.CTkFont(family = theme["version_font"][0], size = theme["version_font"][1])
 
-        if xyBuffer is not None:
-            label.configure(padx = xyBuffer[0], pady = xyBuffer[1])
-        
-        if grid is not None:
-            if sticky == "sticky":
-                label.grid(row = grid[1], column = grid[0], sticky = "nsew")
-            else:
-                label.grid(row = grid[1], column = grid[0])
-        elif grid is None:
-            label.pack()
+        label = ctk.CTkLabel(self.window, text = content)
 
-        return label
-    
-    def new_version_label(self, grid = None, sticky = None, xyBuffer = None):
-        theme = helper.get_theme()
-        version = helper.get_version()
 
-        label = tk.Label(self.window, text = version)
-        label.configure(activebackground = theme["highlight_colour"], 
-                        bg= theme["background_colour"], 
-                        bd = theme["border_width"], 
-                        fg = theme["text_colour"], 
-                        font=theme["version_font"])
-        
-        if xyBuffer is not None:
-            label.configure(padx = xyBuffer[0], pady = xyBuffer[1])
+        if style == "title":
+            label.configure(fg_color= theme["background_colour"], 
+                            text_color = theme["highlight_colour"],
+                            corner_radius = 5,
+                            font = title_font)
+                        
+        elif style == "version":
+            label.configure(fg_color= theme["background_colour"], 
+                            text_color = theme["text_colour"],
+                            corner_radius = 5,
+                            font = version_font,
+                            text = helper.get_version())
+            
+        elif style == "neutral":
+            label.configure(fg_color= theme["neutral_colour"], 
+                            text_color = theme["background_colour"],
+                            corner_radius = 5,
+                            font = standard_font)
+                    
+        elif style == "standard":
+            label.configure(fg_color= theme["background_colour"], 
+                            text_color = theme["text_colour"],
+                            corner_radius = 5,
+                            font = standard_font)
+                    
 
-        if grid is not None:
-            if sticky == "sticky":
-                label.grid(row = grid[1], column = grid[0], sticky = "nsew")
-            else:
-                label.grid(row = grid[1], column = grid[0])
-        elif grid is None:
-            label.pack()
-
-        return label
-
-    def new_label(self, content, grid = None, sticky = None, xyBuffer = None):
-        theme = helper.get_theme()
-
-        label = tk.Label(self.window, text = content)
-        label.configure(activebackground = theme["highlight_colour"], 
-                        bg= theme["background_colour"], 
-                        bd = theme["border_width"], 
-                        fg = theme["text_colour"], 
-                        font=theme["standard_font"])
-        
-        if xyBuffer is not None:
-            label.configure(padx = xyBuffer[0], pady = xyBuffer[1])
+        #i am sure there is a cleaner way to do this but this can be improved later, it works currently
 
         if grid is not None:
+
             if sticky == "sticky":
-                label.grid(row = grid[1], column = grid[0], sticky = "nsew")
+
+                if xyBuffer is not None:
+                    label.grid(row = grid[1], column = grid[0], sticky = "nsew", padx = xyBuffer[0], pady = xyBuffer[1])
+                
+                else:
+                    label.grid(row = grid[1], column = grid[0])
+
             else:
-                label.grid(row = grid[1], column = grid[0])
+
+                if xyBuffer is not None:
+                    label.grid(row = grid[1], column = grid[0], padx = xyBuffer[0], pady = xyBuffer[1])
+                
+                else:
+                    label.grid(row = grid[1], column = grid[0])
+
         elif grid is None:
-            label.pack()
 
-        return label
+            if xyBuffer is not None:
+                label.pack(padx = xyBuffer[0], pady = xyBuffer[1])
 
-    def new_neutral_label(self, content, grid = None, sticky = None, xyBuffer = None):
+            else:
+                label.pack()
+
+    def new_button(self, style, content, grid = None, command = None, sticky = None, xyBuffer = None):
         theme = helper.get_theme()
 
-        label = tk.Label(self.window, text = content)
-        label.configure(activebackground = theme["highlight_colour"], 
-                        bg= theme["neutral_colour"], 
-                        bd = theme["border_width"], 
-                        fg = theme["background_colour"], 
-                        font=theme["standard_font"])
-        
-        if xyBuffer is not None:
-            label.configure(padx = xyBuffer[0], pady = xyBuffer[1])
-
-        if grid is not None:
-            if sticky == "sticky":
-                label.grid(row = grid[1], column = grid[0], sticky = "nsew")
-            else:
-                label.grid(row = grid[1], column = grid[0])
-        elif grid is None:
-            label.pack()
-
-        return label
-
-    def new_button(self, content, grid = None, command = None, sticky = None, xyBuffer = None):
-        theme = helper.get_theme()
+        title_font = ctk.CTkFont(family = theme["title_font"][0], size = theme["title_font"][1])
+        standard_font = ctk.CTkFont(family = theme["standard_font"][0], size = theme["standard_font"][1])
+        version_font = ctk.CTkFont(family = theme["version_font"][0], size = theme["version_font"][1])
 
         if command is None:
-            button = tk.Button(self.window, text = content)
+            button = ctk.CTkButton(self.window, text = content)
         else:
-            button = tk.Button(self.window, text = content, command = command)
+            button = ctk.CTkButton(self.window, text = content, command = command)
 
-        button.configure(activebackground = theme["highlight_colour"], 
-                         bg= theme["background_colour"], 
-                         bd = theme["border_width"], 
-                         fg = theme["text_colour"], 
-                         font=theme["standard_font"])
+        if style == "neutral":
+            button.configure(hover_color = theme["highlight_colour"], 
+                            fg_color= theme["neutral_colour"], 
+                            text_color = theme["background_colour"],
+                            font=standard_font,
+                            corner_radius = 5,
+                            width = 50)
+                    
+        elif style == "standard":
+            button.configure(hover_color = theme["neutral colour"],
+                            fg_color= theme["background_colour"], 
+                            text_color = theme["text_colour"],
+                            font = standard_font,
+                            corner_radius = 5,
+                            width = 50)
+        
+        elif style == "highlight":
+            button.configure(hover_color = theme["neutral_colour"],
+                            fg_color= theme["highlight_colour"], 
+                            text_color = theme["background_colour"],
+                            font = standard_font,
+                            corner_radius = 5,
+                            width = 50)
 
-        if xyBuffer is not None:
-            button.configure(padx = xyBuffer[0], pady = xyBuffer[1])
+        #i am sure there is a cleaner way to do this but this can be improved later, it works currently
 
         if grid is not None:
+
             if sticky == "sticky":
-                button.grid(row = grid[1], column = grid[0], sticky = "nsew")
+
+                if xyBuffer is not None:
+                    button.grid(row = grid[1], column = grid[0], sticky = "nsew", padx = xyBuffer[0], pady = xyBuffer[1])
+                
+                else:
+                    button.grid(row = grid[1], column = grid[0])
+
             else:
-                button.grid(row = grid[1], column = grid[0])
+
+                if xyBuffer is not None:
+                    button.grid(row = grid[1], column = grid[0], padx = xyBuffer[0], pady = xyBuffer[1])
+                
+                else:
+                    button.grid(row = grid[1], column = grid[0])
+
         elif grid is None:
-            button.pack()
+
+            if xyBuffer is not None:
+                button.pack(padx = xyBuffer[0], pady = xyBuffer[1])
+
+            else:
+                button.pack()
 
     def new_slider(self, scale, grid = None, sticky = None, xyBuffer = None):
         theme = helper.get_theme()
@@ -246,12 +266,12 @@ class Window:
         slider.configure(from_ = 0, 
                          to = scale, 
                          orientation= "horizontal", 
-                         corner_radius = 5, 
                          fg_color = theme["text_colour"], 
                          width = helper.get_volume_slider_length(), 
-                         button_hover_color = theme["highlight_colour"], 
-                         button_color = theme["neutral_colour"], 
+                         button_hover_color = theme["neutral_colour"], 
+                         button_color = theme["highlight_colour"], 
                          progress_color = theme["highlight_colour"],
+                         height = 20,
                          command = lambda x: audioManager.set_mic_volume(slider.get()))
 
         if xyBuffer is not None:
@@ -292,10 +312,12 @@ class Window:
             level = audioManager.get_mic_volume()
             progress.set(level)
             self.window.after(20, __user_volume_check__)    
-            print(level)
 
         __user_volume_check__()
 
+
+
+    #---------------------------------------------------------------------------------- debug
     # ### debug ### #
     def frame_debug_colour(self):
         self.window.configure(bg = "green")

@@ -109,6 +109,7 @@ def get_y_height():
 
 #returns x widths
 def get_x_width():
+
     dimensions = get_dimensions()
 
     dimensions_array = dimensions.split("x")
@@ -117,3 +118,16 @@ def get_x_width():
 
     #sets to 80% width
     return int(x)
+
+def get_IO_defaults():
+    with open(data_path + "defaults.json", "r") as defaults_file:
+        defaults = json.load(defaults_file)
+    
+    input_device = defaults["input"]
+    output_device = defaults["output"]
+
+    return input_device, output_device
+
+def write_IO_defaults(data):
+    with open(data_path + "defaults.json", "w") as defaults_file:
+        json.dump(data, defaults_file)
