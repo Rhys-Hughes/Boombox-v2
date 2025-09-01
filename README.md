@@ -1,4 +1,4 @@
-# Boombox-v2
+# Boombox
 Sound board software that allows a user to play sounds as if coming from their microphone, usable for voice calls, gaming, and video production.
 
 Created to be light weight and easy to use, i created the V1 of this some months ago over the course of a week or so, it was rushed and frankly shoddy code wich i have decided to completely rebuild with OOP principles in mind.
