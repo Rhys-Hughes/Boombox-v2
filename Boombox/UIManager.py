@@ -75,6 +75,7 @@ class Window:
 
 
 
+
     #---------------------------------------------------------------------------------- formatting
     #formats the page
     def format_page(self):
@@ -121,6 +122,10 @@ class Window:
             self.window.configure(border_color = theme["highlight_colour"], border_width = theme["frame_border_width"])
         else:
             self.window.configure(highlightcolor = theme["highlight_colour"], highlightthickness= theme["frame_border_width"])
+
+
+
+
 
     #---------------------------------------------------------------------------------- widgets
     #adds a label to the page
@@ -284,17 +289,18 @@ class Window:
                 slider.grid(row = grid[1], column = grid[0])
         elif grid is None:
             slider.pack()
+        
+        slider.set(1)
 
     def new_volume_bar(self, grid = None, sticky = None, xyBuffer = None):
         theme = helper.get_theme()
 
         progress = ctk.CTkProgressBar(self.window, orientation= "horizontal")
 
-        progress.configure(
-                         corner_radius = 5, 
-                         fg_color = theme["neutral_colour"], 
-                         width = helper.get_volume_slider_length(), 
-                         progress_color = theme["highlight_colour"])
+        progress.configure(corner_radius = 5, 
+                           fg_color = theme["neutral_colour"], 
+                           width = helper.get_volume_slider_length(), 
+                           progress_color = theme["highlight_colour"])
 
         if xyBuffer is not None:
             progress.configure(padx = xyBuffer[0], pady = xyBuffer[1])
@@ -309,9 +315,13 @@ class Window:
 
         #sets the volume check which will display the volume of the user live
         def __user_volume_check__():
-            level = audioManager.get_mic_volume()
-            progress.set(level)
+            level = audioManager.get_mic_level()
+            progress.set(level / 100)
+
+            #print("-" * round(int(level), 0))
+            print(level)
             self.window.after(20, __user_volume_check__)    
+            
 
         __user_volume_check__()
 

@@ -125,8 +125,10 @@ def get_IO_defaults():
     
     input_device = defaults["input"]
     output_device = defaults["output"]
+    sample_rate = defaults["sample_rate"]
+    host_api = defaults["host_api"]
 
-    return input_device, output_device
+    return input_device, output_device, sample_rate, host_api
 
 def write_IO_defaults(data):
     with open(data_path + "defaults.json", "w") as defaults_file:

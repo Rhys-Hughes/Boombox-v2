@@ -74,7 +74,7 @@ if __name__ == "__main__":
 
     #----------------------------------------------------------------------------------creating the mic controls
     mic_frame.new_label(style = "standard", content = "Mic Vol", grid = (0, 0))
-    mic_frame.new_slider(100, grid = (1, 0))
+    mic_frame.new_slider(10, grid = (1, 0))
 
     mic_frame.new_label(style = "standard", content = "level", grid = (0, 1))
     mic_frame.new_volume_bar(grid = (1,1))
