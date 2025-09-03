@@ -1,7 +1,9 @@
 import tkinter as tk
+from tkinter import *
 import ctypes
 import customtkinter as ctk
 import tkinter.font as tkFont
+from PIL import Image
 
 import helper, audioManager
 
@@ -85,12 +87,23 @@ class Window:
     
         self.window.title("Boombox")
         self.window.geometry(dimensions)
-        self.window.configure(fg_color = theme["background_colour"])
         self.window.iconbitmap(default=theme["logo"])
 
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(theme["logo"])
 
         ctk.set_appearance_mode("dark")
+
+        if theme["background_image"] != "":
+
+            background_image = ctk.CTkImage(dark_image = Image.open(theme["background_image"]))
+            background = ctk.CTkLabel(self.window, image = background_image)
+
+            background.place(x = 0, y = 0)
+        
+        else:
+            print("no image")
+
+            self.window.configure(fg_color = theme["background_colour"])
 
         self.window.resizable(False, False)
 

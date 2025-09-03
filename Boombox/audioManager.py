@@ -31,8 +31,6 @@ def play(file):
     play_thread = Thread(target = play_file, daemon = True)
     play_thread.start()
 
-
-
 #callback function used by the input stream
 def callback(indata, outdata, frames, time, status):
     global micLevel

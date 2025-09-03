@@ -11,7 +11,8 @@
         "version_font" : "('Microsoft YaHei', 16)",
         "logo" : "logo_standard.ico",
         "border_width" : 0,
-        "frame_border_width" : 2
+        "frame_border_width" : 2,
+        "background_image" : ""
     },
     {
         "name" : "neon_blue",
@@ -25,7 +26,8 @@
         "version_font" : "('Microsoft YaHei', 16)",
         "logo" : "logo_standard.ico",
         "border_width" : 0,
-        "frame_border_width" : 2
+        "frame_border_width" : 2,
+        "background_image" : ""
     },
     {
         "name" : "high_contrast",
@@ -34,11 +36,57 @@
         "highlight_colour" : "#d9ff00",
         "neutral_colour" : "#00f7ff",
         "general_font" : "Microsoft YaHei",
+        "standard_font" : "('Arial Black', 24)",
+        "title_font" : "('Arial Black', 48)",
+        "version_font" : "('Arial Black', 16)",
+        "logo" : "logo_standard.ico",
+        "border_width" : 0,
+        "frame_border_width" : 2,
+        "background_image" : ""
+    },
+    {
+        "name" : "dark_mode",
+        "background_colour" : "#080808",
+        "text_colour" : "#b8b8b8",
+        "highlight_colour" : "#5c5c5c",
+        "neutral_colour" : "#383838",
+        "general_font" : "Microsoft YaHei",
+        "standard_font" : "('Arial Black', 24)",
+        "title_font" : "('Arial Black', 48)",
+        "version_font" : "('Arial Black', 16)",
+        "logo" : "logo_standard.ico",
+        "border_width" : 0,
+        "frame_border_width" : 2,
+        "background_image" : ""
+    },
+    {
+        "name" : "light_mode",
+        "background_colour" : "#ffffff",
+        "text_colour" : "#0a0a0a",
+        "highlight_colour" : "#e0194e",
+        "neutral_colour" : "#919191",
+        "general_font" : "Microsoft YaHei",
         "standard_font" : "('Microsoft YaHei', 24)",
         "title_font" : "('Microsoft YaHei', 48)",
         "version_font" : "('Microsoft YaHei', 16)",
         "logo" : "logo_standard.ico",
         "border_width" : 0,
-        "frame_border_width" : 2
+        "frame_border_width" : 2,
+        "background_image" : ""
+    },
+    {
+        "name" : "whimsical",
+        "background_colour" : "#ff00fb",
+        "text_colour" : "#ffff00",
+        "highlight_colour" : "#00e5ff",
+        "neutral_colour" : "#9500ff",
+        "general_font" : "Microsoft YaHei",
+        "standard_font" : "('Blackadder ITC', 36)",
+        "title_font" : "('Matura MT Script Capitals', 72)",
+        "version_font" : "('Curlz MT', 24)",
+        "logo" : "logo_standard.ico",
+        "border_width" : 0,
+        "frame_border_width" : 2,
+        "background_image" : "Boombox\\dependencies\\images\\whimsy.PNG"
     }
 ]

@@ -8,5 +8,10 @@
         "name" : "Good Job",
         "location" : "Boombox\\dependencies\\default_sounds\\Good Job.mp3",
         "keybind" : ["ctrl", "o"] 
+    },
+    {
+        "name" : "knock knock",
+        "location" :"Boombox\\dependencies\\default_sounds\\crazy-realistic-knocking-sound-troll-twitch-streamers_small.mp3",
+        "keybind" : ["ctrl", "p"]
     }
 ]
