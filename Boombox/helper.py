@@ -7,6 +7,11 @@ images_path = dependencies_path + "images\\"
 default_sounds_path = dependencies_path + "default_sounds\\"
 properties_path = dependencies_path + "properties\\"
 
+
+
+# deals with messy file writing and formatting to clean up header code, any other non-specific calculations and functions are thrown in here
+
+
 #parses the settings json
 def get_settings():
     with open(properties_path + "settings.json", "r") as settings_file:
@@ -119,17 +124,21 @@ def get_x_width():
     #sets to 80% width
     return int(x)
 
+#returns the nescesary information about the default IO devices
 def get_IO_defaults():
     with open(data_path + "defaults.json", "r") as defaults_file:
         defaults = json.load(defaults_file)
     
+    #the data
     input_device = defaults["input"]
     output_device = defaults["output"]
     sample_rate = defaults["sample_rate"]
     host_api = defaults["host_api"]
+    playback_output_device = defaults["playback_output"]
 
-    return input_device, output_device, sample_rate, host_api
+    return input_device, output_device, sample_rate, host_api, playback_output_device
 
+#rewrites the default IO file when new devices are added
 def write_IO_defaults(data):
     with open(data_path + "defaults.json", "w") as defaults_file:
         json.dump(data, defaults_file)

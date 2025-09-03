@@ -15,8 +15,7 @@ last_volume = 1
 def play(file):
 
     #making the play stream multi threaded eliminates the issue of having the application freeze upon playing a sound.
-    #this does not allow you to speak and play sounds at the same time, however it does mean you can still play long
-    #sounds without freezing the application for several seconds
+    #this also allows the audio stream to continue playing as you play sounds, meaning you can speak and play sounds at the same time
     def play_file():
         try:
 
@@ -49,7 +48,7 @@ def initialise_audio():
     if input_device == "" or output_device == "" or sample_rate == "" or host_api == "" or playback_device == "":
 
         # --- TO BE REPLACED WITH A UI BASED SOLUTION --- #
-        
+
         device_list = sd.query_devices()
 
         #print the input devices

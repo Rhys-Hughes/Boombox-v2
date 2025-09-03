@@ -1,7 +1,9 @@
-import tkinter as tk, helper
+import tkinter as tk
 
+import helper
 import UIManager as UIM
 import audioManager as AM
+import keybind_listener as KBL
 
 def debug(val):
     print(val)
@@ -97,5 +99,6 @@ if __name__ == "__main__":
 
 
     AM.initialise_audio()
+    KBL.initiate_keybind_listener()
 
     main_window.close_loop()

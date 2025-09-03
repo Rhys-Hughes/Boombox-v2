@@ -318,8 +318,6 @@ class Window:
             level = audioManager.get_mic_level()
             progress.set(level / 100)
 
-            #print("-" * round(int(level), 0))
-            print(level)
             self.window.after(20, __user_volume_check__)    
             
 
