@@ -70,8 +70,9 @@ def get_sound_list():
         name = sounds[i]["name"]
         location = sounds[i]["location"]
         keybind = sounds[i]["keybind"]
+        volume = sounds[i]["volume"]
 
-        new_sound = SD.Sound(name, location, keybind)
+        new_sound = SD.Sound(name, location, keybind, volume)
 
         sound_list.append(new_sound)
     

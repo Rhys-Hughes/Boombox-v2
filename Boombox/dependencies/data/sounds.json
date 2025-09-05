@@ -2,16 +2,14 @@
     {
         "name" : "Behind You",
         "location" : "Boombox\\dependencies\\default_sounds\\Behind you.mp3",
-        "keybind" : ["ctrl", "i"] 
+        "keybind" : ["ctrl", "i"],
+        "volume" : 0.5 
     },
     {
         "name" : "Good Job",
         "location" : "Boombox\\dependencies\\default_sounds\\Good Job.mp3",
-        "keybind" : ["ctrl", "o"] 
-    },
-    {
-        "name" : "knock knock",
-        "location" :"Boombox\\dependencies\\default_sounds\\crazy-realistic-knocking-sound-troll-twitch-streamers_small.mp3",
-        "keybind" : ["ctrl", "p"]
+        "keybind" : ["ctrl", "o"],
+        "volume" : 0.5  
     }
+
 ]

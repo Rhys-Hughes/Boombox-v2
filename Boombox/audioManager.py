@@ -12,7 +12,7 @@ global last_volume
 last_volume = 1
 
 #plays a specific file
-def play(file):
+def play(file, sound_volume):
 
     #making the play stream multi threaded eliminates the issue of having the application freeze upon playing a sound.
     #this also allows the audio stream to continue playing as you play sounds, meaning you can speak and play sounds at the same time
@@ -20,6 +20,8 @@ def play(file):
         try:
 
             data, samplerate = sf.read(file, dtype='float32')
+
+            data = data * sound_volume
 
             sd.play(data, samplerate=samplerate, blocking = False)
             sd.wait()
